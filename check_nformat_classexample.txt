@@ -1,0 +1,56 @@
+#which bash
+#function which knows how to format
+#!/bin/bash
+#change permissions
+ 
+if [ $# -lt 1] ; then
+  echo "USAGE"
+  echo "$0 file_or_dir_name"
+fi
+
+
+if [ $1 = "-h"] ; then
+  echo "HELP"
+  echo "I am going to provide you with help ..."
+  echo "$0 file_or_dir_name"
+  echo "More instructions here"
+fi
+  
+#function
+convert ()
+{
+  frif=$1
+  testM = $( file $1 | grep " CR " )
+  #testM = $( file $frif | grep " CR " )
+  testD = $( file $1 | grep " CRLF " )
+  #testD = $( file $frif | grep " CRLF " )
+  #echo "=====> $testM"
+  if [[ $testM ]] ; then
+    echo "A Mac Os formatted file ..."
+    dos2unix -c mac $frif
+  elif [[ $testD ]] ; then
+    echo "A Dos Os formatted file ..."
+    #echo "=====> $testD"
+    dos2unix $frif
+  else
+    echo "File is linux friendly ..."
+  fi
+ 
+}
+
+in_file=$1
+if [ -f $in_file ] ; then
+  
+elif [ -d $in_file ] ; then
+  echo "This is a directory"
+  file $in_file/*
+  lofn=$( ls -l $in_file )
+  cd $in_file
+  #for loop
+  for fn in ${lofn[@]}
+  do
+    convert $fn
+  done
+else
+  echo "Neither Reg. file nor a Dir..."  
+fi
