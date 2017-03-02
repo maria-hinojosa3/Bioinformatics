@@ -1,0 +1,6 @@
+#function which knows how to format
+
+file filename 
+if [ -f filename] ; then
+  
+  
