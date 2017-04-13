@@ -1,6 +1,8 @@
-##!/bin/bash
+#!/bin/bash
 
-prot_down ()
+slist=$1
+
+prot_down()
 {
 pro_name=( $(grep -i "$sid" $slist ) )
 count=${#pro_name[@]}
@@ -17,11 +19,18 @@ done
 
 ref="ftp://ftp.ncbi.nlm.nih.gov/genomes/archive/old_genbank/Bacteria"
 
-sid=$1
-slist=$2
+for (( i=0 ; i<99 ; i++ ))
+do      
+        while [ $i -le 99 ]
+        do 
+                read -p "Do you want to continue (y/n)" answer
+                        if [ $answer = y ] ; then
+                                read -p "Enter query id: " sid
+                                prot_down()
+                        else
+                                echo "You need to enter query id. Goodbye."
+                                exit 1
+                        fi
+        done
+done
 
-if [ -n $sid ] || [ -n $slist ]] ; then
-        prot_down () $sid $slist
-else
-        echo "nothing"
-fi
