@@ -1,0 +1,27 @@
+##!/bin/bash
+
+prot_down ()
+{
+pro_name=( $(grep -i "$sid" $slist ) )
+count=${#pro_name[@]}
+echo $count
+
+for (( i=0 ; i<count ; i++ ))
+do
+        mkdir ${pro_name[i]}
+        cd ${pro_name[i]}
+        wget $ref/${pro_name[i]}/*.faa*
+        cd ..
+done
+}
+
+ref="ftp://ftp.ncbi.nlm.nih.gov/genomes/archive/old_genbank/Bacteria"
+
+sid=$1
+slist=$2
+
+if [ -n $sid ] || [ -n $slist ]] ; then
+        prot_down () $sid $slist
+else
+        echo "nothing"
+fi
